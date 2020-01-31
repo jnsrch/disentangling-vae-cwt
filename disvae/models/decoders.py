@@ -128,7 +128,7 @@ class DecoderSteenkiste(nn.Module):
         return x
 
 
-class DecoderCWT(nn.Module):
+class DecoderCwt(nn.Module):
     def __init__(self, img_size,
                  latent_dim=10):
         r"""Decoder of the model proposed in [1].
@@ -152,7 +152,7 @@ class DecoderCWT(nn.Module):
             [1] Burgess, Christopher P., et al. "Understanding disentangling in
             $\beta$-VAE." arXiv preprint arXiv:1804.03599 (2018).
         """
-        super(DecoderCWT, self).__init__()
+        super(DecoderCwt, self).__init__()
 
         # Layer parameters
         hid_channels = 32

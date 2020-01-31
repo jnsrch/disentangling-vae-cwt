@@ -138,7 +138,7 @@ class EncoderSteenkiste(nn.Module):
         return mu, logvar
 
 
-class EncoderCWT(nn.Module):
+class EncoderCwt(nn.Module):
     def __init__(self, img_size,
                  latent_dim=10):
         r"""Encoder of the model proposed in [1].
@@ -163,7 +163,7 @@ class EncoderCWT(nn.Module):
             [1] Burgess, Christopher P., et al. "Understanding disentangling in
             $\beta$-VAE." arXiv preprint arXiv:1804.03599 (2018).
         """
-        super(EncoderCWT, self).__init__()
+        super(EncoderCwt, self).__init__()
 
         # Layer parameters
         hid_channels = 32
