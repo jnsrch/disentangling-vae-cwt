@@ -9,7 +9,7 @@ from disvae.utils.initialization import weights_init
 from .encoders import get_encoder
 from .decoders import get_decoder
 
-MODELS = ["Burgess"]
+MODELS = ["Burgess", "Steenkiste"]
 
 
 def init_specific_model(model_type, img_size, latent_dim):
@@ -27,25 +27,22 @@ def init_specific_model(model_type, img_size, latent_dim):
 
 
 class VAE(nn.Module):
-    def __init__(self, img_size, encoder, decoder, latent_dim):
+    def __init__(self, input_size, encoder, decoder, latent_dim):
         """
         Class which defines model and forward pass.
 
         Parameters
         ----------
-        img_size : tuple of ints
+        input_size : tuple of ints
             Size of images. E.g. (1, 32, 32) or (3, 64, 64).
         """
         super(VAE, self).__init__()
 
-        if list(img_size[1:]) not in [[32, 32], [64, 64]]:
-            raise RuntimeError("{} sized images not supported. Only (None, 32, 32) and (None, 64, 64) supported. Build your own architecture or reshape images!".format(img_size))
-
         self.latent_dim = latent_dim
-        self.img_size = img_size
-        self.num_pixels = self.img_size[1] * self.img_size[2]
-        self.encoder = encoder(img_size, self.latent_dim)
-        self.decoder = decoder(img_size, self.latent_dim)
+        self.img_size = input_size
+
+        self.encoder = encoder(input_size, self.latent_dim)
+        self.decoder = decoder(input_size, self.latent_dim)
 
         self.reset_parameters()
 

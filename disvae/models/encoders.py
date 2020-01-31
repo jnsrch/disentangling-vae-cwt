@@ -87,3 +87,55 @@ class EncoderBurgess(nn.Module):
         mu, logvar = mu_logvar.view(-1, self.latent_dim, 2).unbind(-1)
 
         return mu, logvar
+
+
+class EncoderSteenkiste(nn.Module):
+    def __init__(self, signal_size=30,
+                 latent_dim=10):
+        r"""
+        Parameters
+        ----------
+        signal_size : int for length of signal. Defaults to 30
+
+        latent_dim : int
+            Dimensionality of latent output.
+
+        Model Architecture (transposed for decoder)
+        ------------
+        - 4 convolutional layers (each with 32 channels), (4 x 4 kernel), (stride of 2)
+        - 2 fully connected layers (each of 256 units)
+        - Latent distribution:
+            - 1 fully connected layer of 20 units (log variance and mean for 10 Gaussians)
+
+        References:
+            [1] Burgess, Christopher P., et al. "Understanding disentangling in
+            $\beta$-VAE." arXiv preprint arXiv:1804.03599 (2018).
+        """
+        super(EncoderSteenkiste, self).__init__()
+
+        # Layer parameters
+        hidden_dim = 20
+        self.latent_dim = latent_dim
+        self.img_size = signal_size
+
+        # Fully connected layers
+        self.lin1 = nn.Linear(signal_size, hidden_dim)
+        self.lin2 = nn.Linear(hidden_dim, latent_dim)
+
+        # Fully connected layers for mean and variance
+        self.mu_logvar_gen = nn.Linear(latent_dim, self.latent_dim * 2)
+
+    def forward(self, x):
+        # Fully connected layers with ReLu activations
+        x = torch.relu(self.lin1(x))
+        x = torch.relu(self.lin2(x))
+
+        # Fully connected layer for log variance and mean
+        # Log std-dev in paper (bear in mind)
+        mu_logvar = self.mu_logvar_gen(x)
+        mu, logvar = mu_logvar.view(-1, self.latent_dim, 2).unbind(-1)
+
+        return mu, logvar
+
+
+class EncoderSteenkiste(nn.Module):

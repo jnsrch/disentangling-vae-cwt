@@ -82,3 +82,47 @@ class DecoderBurgess(nn.Module):
         x = torch.sigmoid(self.convT3(x))
 
         return x
+
+
+class DecoderSteenkiste(nn.Module):
+    def __init__(self, signal_size=30,
+                 latent_dim=10):
+        r"""Decoder of the model proposed in Steenkiste.
+
+        Parameters
+        ----------
+        signal_size : length of signal (default: 30)
+
+        latent_dim : int
+            Dimensionality of latent output.
+
+        Model Architecture (transposed for decoder)
+        ------------
+        - 4 convolutional layers (each with 32 channels), (4 x 4 kernel), (stride of 2)
+        - 2 fully connected layers (each of 256 units)
+        - Latent distribution:
+            - 1 fully connected layer of 20 units (log variance and mean for 10 Gaussians)
+
+        References:
+            [1] Burgess, Christopher P., et al. "Understanding disentangling in
+            $\beta$-VAE." arXiv preprint arXiv:1804.03599 (2018).
+        """
+        super(DecoderSteenkiste, self).__init__()
+
+        # Layer parameters
+        hidden_dim = 20
+        self.signal_size = signal_size
+        # Shape required to start transpose convs
+
+        # Fully connected layers
+        self.lin1 = nn.Linear(latent_dim, hidden_dim)
+        self.lin2 = nn.Linear(hidden_dim, signal_size)
+        self.lin3 = nn.Linear(signal_size, signal_size)
+
+    def forward(self, z):
+        # Fully connected layers with ReLu activations
+        x = torch.relu(self.lin1(z))
+        x = torch.relu(self.lin2(x))
+        x = torch.relu(self.lin3(x))
+
+        return x
