@@ -170,11 +170,11 @@ class DecoderCwt(nn.Module):
 
         # Convolutional layers
         cnn_kwargs = dict(padding=1)
-        self.convT4 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(1,2), **cnn_kwargs)
+        self.convT4 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,2), **cnn_kwargs)
 
-        self.convT1 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size=(4,6), stride=(2,3), **cnn_kwargs)
-        self.convT2 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size=4, stride=2, **cnn_kwargs)
-        self.convT3 = nn.ConvTranspose2d(hid_channels, n_chan, kernel_size=(5,6), stride=3, **cnn_kwargs)
+        self.convT1 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,3), **cnn_kwargs)
+        self.convT2 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size=(3,3), stride=(2,3), **cnn_kwargs)
+        self.convT3 = nn.ConvTranspose2d(hid_channels, n_chan, kernel_size=(3,4), stride=3, **cnn_kwargs)
 
     def forward(self, z):
         batch_size = z.size(0)

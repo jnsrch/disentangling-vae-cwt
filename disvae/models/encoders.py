@@ -175,15 +175,15 @@ class EncoderCwt(nn.Module):
 
         # Convolutional layers
         cnn_kwargs = dict(padding=1)
-        self.conv1 = nn.Conv2d(n_chan, hid_channels, kernel_size=(5,6), stride=3, **cnn_kwargs)
-        self.conv2 = nn.Conv2d(hid_channels, hid_channels, kernel_size=4, stride=2, **cnn_kwargs)
-        self.conv3 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(4,6), stride=(2,3), **cnn_kwargs)
-        self.conv4 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(1,2), **cnn_kwargs)
+        self.conv1 = nn.Conv2d(n_chan, hid_channels, kernel_size=(3,4), stride=3, **cnn_kwargs) # 25x67
+        self.conv2 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,3), stride=(2,3), **cnn_kwargs) # 13x23
+        self.conv3 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,3), **cnn_kwargs) # 7x8
+        self.conv4 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,2), **cnn_kwargs) # 4x4
 
     # should result in output dimension 4*4=16
 
         # Fully connected layers
-        self.lin1 = nn.Linear(16*hid_channels, hidden_dim)
+        self.lin1 = nn.Linear(16*hid_channels, hidden_dim) # 512x256
         self.lin2 = nn.Linear(hidden_dim, hidden_dim)
 
         # Fully connected layers for mean and variance
