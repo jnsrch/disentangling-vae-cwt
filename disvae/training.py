@@ -150,7 +150,7 @@ class Trainer():
         storer: dict
             Dictionary in which to store important variables for vizualisation.
         """
-        batch_size, channel, height, width = data.size()
+
         data = data.to(self.device)
 
         try:
