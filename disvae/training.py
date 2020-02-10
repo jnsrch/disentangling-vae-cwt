@@ -3,6 +3,7 @@ import logging
 import os
 from timeit import default_timer
 from collections import defaultdict
+from utils.datasets import DATASETS_DICT
 
 from tqdm import trange
 import torch
@@ -123,8 +124,11 @@ class Trainer():
         epoch_loss = 0.
         kwargs = dict(desc="Epoch {}".format(epoch + 1), leave=False,
                       disable=not self.is_progress_bar)
+        data_is_nested = data_loader in DATASETS_DICT.values()
         with trange(len(data_loader), **kwargs) as t:
-            for _, (data, _) in enumerate(data_loader):
+            for _, data in enumerate(data_loader):
+                if data_is_nested:
+                    data, _ = data
                 iter_loss = self._train_iteration(data, storer)
                 epoch_loss += iter_loss
 
