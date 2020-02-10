@@ -124,11 +124,9 @@ class Trainer():
         epoch_loss = 0.
         kwargs = dict(desc="Epoch {}".format(epoch + 1), leave=False,
                       disable=not self.is_progress_bar)
-        data_is_nested = data_loader in DATASETS_DICT.values()
         with trange(len(data_loader), **kwargs) as t:
             for _, data in enumerate(data_loader):
-                if data_is_nested:
-                    data, _ = data
+                data = data[0] # Tensors are nested in dataset
                 iter_loss = self._train_iteration(data, storer)
                 epoch_loss += iter_loss
 
