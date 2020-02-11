@@ -52,13 +52,13 @@ class DecoderBurgess(nn.Module):
         # Fully connected layers
         self.lin1 = nn.Linear(latent_dim, hidden_dim)
         self.lin2 = nn.Linear(hidden_dim, hidden_dim)
-        self.lin3 = nn.Linear(hidden_dim, np.product(self.reshape))
+        self.lin3 = nn.Linear(hidden_dim, np.product(self.reshape)) # 32x4x4=512
 
         # Convolutional layers
         cnn_kwargs = dict(stride=2, padding=1)
         # If input image is 64x64 do fourth convolution
         if self.img_size[1] == self.img_size[2] == 64:
-            self.convT_64 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs)
+            self.convT_64 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs) #
 
         self.convT1 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs)
         self.convT2 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs)
@@ -71,7 +71,7 @@ class DecoderBurgess(nn.Module):
         x = torch.relu(self.lin1(z))
         x = torch.relu(self.lin2(x))
         x = torch.relu(self.lin3(x))
-        x = x.view(batch_size, *self.reshape)
+        x = x.view(batch_size, *self.reshape) # (128, 32, 4, 4)
 
         # Convolutional layers with ReLu activations
         if self.img_size[1] == self.img_size[2] == 64:
@@ -159,7 +159,7 @@ class DecoderCwt(nn.Module):
         hidden_dim = 256
         conv_in_size = 16
         self.img_size = img_size
-        self.reshape = (hid_channels, 3, 4)
+        self.reshape = (conv_in_size, 3, 4)
 
         n_chan = self.img_size[0]
         self.img_size = img_size
@@ -167,7 +167,7 @@ class DecoderCwt(nn.Module):
         # Fully connected layers
         self.lin1 = nn.Linear(latent_dim, hidden_dim)
         self.lin2 = nn.Linear(hidden_dim, hidden_dim)
-        self.lin3 = nn.Linear(hidden_dim, conv_in_size)
+        self.lin3 = nn.Linear(hidden_dim, np.product(self.reshape))
 
         # Convolutional layers
         cnn_kwargs = dict(padding=1)
