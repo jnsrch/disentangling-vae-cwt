@@ -159,7 +159,7 @@ class DecoderCwt(nn.Module):
         hidden_dim = 256
         conv_in_size = 16
         self.img_size = img_size
-        self.reshape = (hid_channels, 3, 4)
+        self.reshape = (hid_channels, 4, 4)
 
         n_chan = self.img_size[0]
         self.img_size = img_size
