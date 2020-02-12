@@ -22,7 +22,8 @@ DATASETS_DICT = {"mnist": "MNIST",
                  "fashion": "FashionMNIST",
                  "dsprites": "DSprites",
                  "celeba": "CelebA",
-                 "chairs": "Chairs"}
+                 "chairs": "Chairs",
+                 "cwt": "Cwt"}
 DATASETS = list(DATASETS_DICT.keys())
 
 
@@ -112,6 +113,21 @@ class DisentangledDataset(Dataset, abc.ABC):
     def download(self):
         """Download the dataset. """
         pass
+
+
+class Cwt(DisentangledDataset):
+    background_color = COLOUR_BLACK
+
+    def __init__(self, root=os.path.join(DIR, '../data/celeba'), **kwargs):
+        super().__init__(root, [transforms.ToTensor()], **kwargs)
+
+
+def download(self):
+    None
+
+
+def __getitem__(self, idx):
+    return 0, 0
 
 
 class DSprites(DisentangledDataset):
