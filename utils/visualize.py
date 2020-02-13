@@ -275,7 +275,7 @@ class Visualizer():
         sampling_type = "prior" if data is None else "posterior"
         filename = "{}_{}".format(sampling_type, PLOT_NAMES["traversals"])
 
-        if is_return_tensor:
+        if not is_return_tensor:
             return self._save_or_return(decoded_traversal.data, size, filename,
                                         is_force_return=is_force_return)
         else:

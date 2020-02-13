@@ -175,10 +175,10 @@ class EncoderCwt(nn.Module):
 
         # Convolutional layers
         cnn_kwargs = dict(padding=1)
-        self.conv1 = nn.Conv2d(n_chan, hid_channels, kernel_size=(3,4), stride=3, **cnn_kwargs) # 25x67
-        self.conv2 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,3), stride=(2,3), **cnn_kwargs) # 13x23
-        self.conv3 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,3), **cnn_kwargs) # 7x8
-        self.conv4 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,2), **cnn_kwargs) # 4x4
+        self.conv1 = nn.Conv2d(n_chan, hid_channels, kernel_size=(3,4), stride=(2,3), **cnn_kwargs) # 22x67
+        self.conv2 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(4,3), stride=(2,3), **cnn_kwargs) # 11x23
+        self.conv3 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(3,4), stride=(2,3), **cnn_kwargs) # 6x8
+        self.conv4 = nn.Conv2d(hid_channels, hid_channels, kernel_size=(2,4), stride=(2,2), **cnn_kwargs) # 4x4
 
     # should result in output dimension 4*4=16
 
