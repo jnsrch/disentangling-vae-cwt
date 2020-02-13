@@ -230,7 +230,8 @@ class Visualizer():
                    is_reorder_latents=False,
                    n_per_latent=8,
                    n_latents=None,
-                   is_force_return=False):
+                   is_force_return=False,
+                   is_return_tensor=False):
         """Plot traverse through all latent dimensions (prior or posterior) one
         by one and plots a grid of images where each row corresponds to a latent
         traversal of one latent dimension.
@@ -274,8 +275,11 @@ class Visualizer():
         sampling_type = "prior" if data is None else "posterior"
         filename = "{}_{}".format(sampling_type, PLOT_NAMES["traversals"])
 
-        return self._save_or_return(decoded_traversal.data, size, filename,
-                                    is_force_return=is_force_return)
+        if is_return_tensor:
+            return self._save_or_return(decoded_traversal.data, size, filename,
+                                        is_force_return=is_force_return)
+        else:
+            return decoded_traversal.data
 
     def reconstruct_traverse(self, data,
                              is_posterior=True,
