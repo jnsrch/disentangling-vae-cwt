@@ -188,7 +188,8 @@ class Visualizer():
         data = data[:size[0] * size[1], ...]
         return self._save_or_return(data, size, PLOT_NAMES["data_samples"])
 
-    def reconstruct(self, data, size=(8, 8), is_original=True, is_force_return=False):
+    def reconstruct(self, data, size=(8, 8), is_original=True, is_force_return=False,
+                    is_return_tensor=False):
         """Generate reconstructions of data through the model.
 
         Parameters
@@ -222,8 +223,13 @@ class Visualizer():
         recs = recs.view(-1, *self.model.img_size).cpu()
 
         to_plot = torch.cat([originals, recs]) if is_original else recs
-        return self._save_or_return(to_plot, size, PLOT_NAMES["reconstruct"],
-                                    is_force_return=is_force_return)
+
+        if not is_return_tensor:
+            return self._save_or_return(to_plot, size, PLOT_NAMES["reconstruct"],
+                                        is_force_return=is_force_return)
+
+        else:
+            return to_plot.data
 
     def traversals(self,
                    data=None,
