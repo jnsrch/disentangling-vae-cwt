@@ -89,7 +89,7 @@ class Visualizer():
             max_traversal = stats.norm.ppf(max_traversal, loc=mean, scale=std)  # from 0.05 to -1.645
 
         # symmetrical traversals
-        return (-1 * max_traversal, max_traversal)
+        return ((-1 * max_traversal + mean), (max_traversal + mean))
 
     def _traverse_line(self, idx, n_samples, data=None):
         """Return a (size, latent_size) latent sample, corresponding to a traversal
