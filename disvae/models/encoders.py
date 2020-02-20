@@ -90,7 +90,7 @@ class EncoderBurgess(nn.Module):
 
 
 class EncoderSteenkiste(nn.Module):
-    def __init__(self, signal_size=200,
+    def __init__(self, signal_size,
                  latent_dim=10):
         r"""
         Parameters
@@ -118,9 +118,10 @@ class EncoderSteenkiste(nn.Module):
         hidden_dim2 = 20
         self.latent_dim = latent_dim
         self.img_size = signal_size
+        signal_length = signal_size[2]
 
         # Fully connected layers
-        self.lin1 = nn.Linear(signal_size, hidden_dim1)
+        self.lin1 = nn.Linear(signal_length, hidden_dim1)
         self.lin2 = nn.Linear(hidden_dim1, hidden_dim2)
         self.lin3 = nn.Linear(hidden_dim2, latent_dim)
 

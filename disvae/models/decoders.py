@@ -85,7 +85,7 @@ class DecoderBurgess(nn.Module):
 
 
 class DecoderSteenkiste(nn.Module):
-    def __init__(self, signal_size=200,
+    def __init__(self, signal_size,
                  latent_dim=10):
         r"""Decoder of the model proposed in Steenkiste.
 
@@ -113,12 +113,13 @@ class DecoderSteenkiste(nn.Module):
         hidden_dim1 = 50
         hidden_dim2 = 20
         self.signal_size = signal_size
+        signal_length = signal_size[2]
         # Shape required to start transpose convs
 
         # Fully connected layers
         self.lin1 = nn.Linear(latent_dim, hidden_dim2)
         self.lin2 = nn.Linear(hidden_dim2, hidden_dim1)
-        self.lin3 = nn.Linear(hidden_dim1, signal_size)
+        self.lin3 = nn.Linear(hidden_dim1, signal_length)
 
     def forward(self, z):
         # Fully connected layers with ReLu activations

@@ -91,7 +91,7 @@ class Visualizer():
         # symmetrical traversals
         return ((-1 * max_traversal + mean), (max_traversal + mean))
 
-    def _traverse_line(self, idx, n_samples, data=None):
+    def _traverse_line(self, idx, n_samples, data=None, data2=None):
         """Return a (size, latent_size) latent sample, corresponding to a traversal
         of a latent variable indicated by idx.
 
@@ -126,9 +126,14 @@ class Visualizer():
                 post_std_idx = torch.exp(post_logvar / 2).cpu()[0, idx]
 
             # travers from the gaussian of the posterior in case quantile
-            traversals = torch.linspace(*self._get_traversal_range(mean=post_mean_idx,
+            if data2 is None:
+                traversals = torch.linspace(*self._get_traversal_range(mean=post_mean_idx,
                                                                    std=post_std_idx),
-                                        steps=n_samples)
+                                            steps=n_samples)
+            else:
+                post_mean2, _ = self.model.encoder(data.to(self.device))
+                post_mean2_idx = post_mean2.cpu()[0, idx]
+                traversals = torch.linspace(post_mean_idx, post_mean2_idx, steps=n_samples)
 
         for i in range(n_samples):
             samples[i, idx] = traversals[i]
@@ -233,6 +238,7 @@ class Visualizer():
 
     def traversals(self,
                    data=None,
+                   data2=None,
                    is_reorder_latents=False,
                    n_per_latent=8,
                    n_latents=None,
@@ -244,9 +250,12 @@ class Visualizer():
 
         Parameters
         ----------
-        data : bool, optional
+        data : Tensor, optional
             Data to use for computing the latent posterior. If `None` traverses
             the prior.
+
+        data2 : Tensor, optional
+            If data2 is given - will interpolate between the two
 
         n_per_latent : int, optional
             The number of points to include in the traversal of a latent dimension.
@@ -263,7 +272,7 @@ class Visualizer():
             Force returning instead of saving the image.
         """
         n_latents = n_latents if n_latents is not None else self.model.latent_dim
-        latent_samples = [self._traverse_line(dim, n_per_latent, data=data)
+        latent_samples = [self._traverse_line(dim, n_per_latent, data=data, data2=data2)
                           for dim in range(self.latent_dim)]
         decoded_traversal = self._decode_latents(torch.cat(latent_samples, dim=0))
 
