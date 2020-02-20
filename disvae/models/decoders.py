@@ -126,7 +126,7 @@ class DecoderSteenkiste(nn.Module):
         x = torch.relu(self.lin1(z))
         x = torch.relu(self.lin2(x))
         x = torch.relu(self.lin3(x))
-
+        x = x[:,None,None,:] # add dummy dimensions for height and channels
         return x
 
 
