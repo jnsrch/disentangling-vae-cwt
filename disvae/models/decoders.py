@@ -125,7 +125,7 @@ class DecoderSteenkiste(nn.Module):
         # Fully connected layers with ReLu activations
         x = torch.relu(self.lin1(z))
         x = torch.relu(self.lin2(x))
-        x = torch.relu(self.lin3(x))
+        x = torch.sigmoid(self.lin3(x))
         x = x[:,None,None,:] # add dummy dimensions for height and channels
         return x
 
