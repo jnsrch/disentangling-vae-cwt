@@ -114,13 +114,15 @@ class EncoderSteenkiste(nn.Module):
         super(EncoderSteenkiste, self).__init__()
 
         # Layer parameters
-        hidden_dim = 20
+        hidden_dim1 = 50
+        hidden_dim2 = 20
         self.latent_dim = latent_dim
         self.img_size = signal_size
 
         # Fully connected layers
-        self.lin1 = nn.Linear(signal_size, hidden_dim)
-        self.lin2 = nn.Linear(hidden_dim, latent_dim)
+        self.lin1 = nn.Linear(signal_size, hidden_dim1)
+        self.lin2 = nn.Linear(hidden_dim1, hidden_dim2)
+        self.lin3 = nn.Linear(hidden_dim2, latent_dim)
 
         # Fully connected layers for mean and variance
         self.mu_logvar_gen = nn.Linear(latent_dim, self.latent_dim * 2)
@@ -129,6 +131,7 @@ class EncoderSteenkiste(nn.Module):
         # Fully connected layers with ReLu activations
         x = torch.relu(self.lin1(x))
         x = torch.relu(self.lin2(x))
+        x = torch.relu(self.lin3(x))
 
         # Fully connected layer for log variance and mean
         # Log std-dev in paper (bear in mind)
