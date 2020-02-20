@@ -90,7 +90,7 @@ class EncoderBurgess(nn.Module):
 
 
 class EncoderSteenkiste(nn.Module):
-    def __init__(self, signal_size=30,
+    def __init__(self, signal_size=200,
                  latent_dim=10):
         r"""
         Parameters
