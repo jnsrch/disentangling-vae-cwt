@@ -131,9 +131,9 @@ class Visualizer():
                                                                    std=post_std_idx),
                                             steps=n_samples)
             else:
-                post_mean2, _ = self.model.encoder(data.to(self.device))
+                post_mean2, _ = self.model.encoder(data2.to(self.device))
                 post_mean2_idx = post_mean2.cpu()[0, idx]
-                traversals = torch.linspace(post_mean_idx, post_mean2_idx, steps=n_samples)
+                traversals = torch.linspace(float(post_mean_idx), float(post_mean2_idx), steps=n_samples)
 
         for i in range(n_samples):
             samples[i, idx] = traversals[i]
